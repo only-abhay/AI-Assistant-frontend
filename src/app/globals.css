@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply m-0 bg-slate-50 text-slate-900 antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img,
+iframe {
+  max-width: 100%;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.auth-shell {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.auth-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.auth-orb-one {
+  width: 24rem;
+  height: 24rem;
+  top: -8rem;
+  right: -7rem;
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.5), rgba(129, 140, 248, 0));
+}
+
+.auth-orb-two {
+  width: 20rem;
+  height: 20rem;
+  bottom: -10rem;
+  left: -8rem;
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.32), rgba(217, 70, 239, 0));
+}
