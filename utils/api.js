@@ -1,9 +1,9 @@
 import axios from 'axios';
 
+import axios from "axios";
+
 const api = axios.create({
-  baseURL: typeof window === "undefined"
-    ? process.env.NEXT_PUBLIC_CATEGORY_URL
-    : "/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
 
