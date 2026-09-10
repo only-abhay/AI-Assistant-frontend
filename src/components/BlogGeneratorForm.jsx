@@ -1,7 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { generateBlog } from "../../utils/api";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { generateBlog, getMyBlogs } from "../../utils/api";
+import HistorySidebar from "./HistorySidebar";
+import { LoaderCircle } from "lucide-react";
 
 const initialForm = {
   title: "",
@@ -16,6 +19,25 @@ export default function BlogGeneratorForm() {
   const [loading, setLoading] = useState(false);
   const [display, setDisplay] = useState(false);
   const [generatedBlog, setGeneratedBlog] = useState("");
+  const [selectedBlog, setSelectedBlog] = useState(null);
+  const [blogs, setBlogs] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    refreshBlogs()
+      .catch((requestError) => {
+        if ([401, 403].includes(requestError.response?.status)) {
+          router.replace("/auth?redirect=/blog");
+        }
+      })
+      .finally(() => setHistoryLoading(false));
+  }, [router]);
+
+  const refreshBlogs = async () => {
+    const response = await getMyBlogs();
+    setBlogs(response.data.data || []);
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -51,27 +73,17 @@ export default function BlogGeneratorForm() {
     try {
       const response = await generateBlog(payload);
 
-      console.log("API Response:", response);
-
-      // Backend response:
-      // {
-      //   success: true,
-      //   blog: {
-      //      title,
-      //      keywords,
-      //      description,
-      //      content
-      //   }
-      // }
 
       const blogContent = response?.data?.blog
-
+       console.log("Blog Content:", blogContent);
       if (!blogContent) {
         setError("Blog content was not received from the server.");
         return;
       }
 
       setGeneratedBlog(blogContent);
+      setSelectedBlog(null);
+      await refreshBlogs();
 
       setSuccess("Your blog has been generated successfully.");
 
@@ -95,14 +107,33 @@ export default function BlogGeneratorForm() {
   const handleGenerateAnother = () => {
     setDisplay(false);
     setGeneratedBlog("");
+    setSelectedBlog(null);
     setSuccess("");
     setError("");
     setForm(initialForm);
   };
 
+  const openBlog = ({ item }) => {
+    setSelectedBlog(item);
+    setGeneratedBlog(item.content);
+    setDisplay(true);
+  };
+
   return (
     <main className="min-h-screen px-4 py-10">
-      <section className="mx-auto w-full max-w-4xl">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:flex-row md:items-start">
+        <HistorySidebar
+          blogs={blogs}
+          selected={selectedBlog ? { key: `blog-${selectedBlog._id}` } : null}
+          onSelect={openBlog}
+          showQuestions={false}
+        />
+        <section className="min-w-0 flex-1">
+        {historyLoading && (
+          <p className="mb-4 flex items-center gap-2 text-sm text-slate-500">
+            <LoaderCircle size={16} className="animate-spin" /> Loading blog history...
+          </p>
+        )}
 
         {/* ================= FORM ================= */}
 
@@ -244,8 +275,9 @@ export default function BlogGeneratorForm() {
                 </p>
 
                 <h1 className="mt-1 text-3xl font-bold text-slate-950">
-                  Your Generated Blog
+                  {selectedBlog?.title || "Your Generated Blog"}
                 </h1>
+                {selectedBlog?.description && <p className="mt-2 text-slate-500">{selectedBlog.description}</p>}
               </div>
 
               <button
@@ -278,7 +310,8 @@ export default function BlogGeneratorForm() {
             </article>
           </section>
         )}
-      </section>
+        </section>
+      </div>
     </main>
   );
 }

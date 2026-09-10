@@ -1,13 +1,17 @@
 import Link from "next/link";
 import { UserCircle } from "lucide-react";
+import serverApi from "../../../utils/serverApi";
+
+import LoginButton from "./LoginButton";
 
 const navigation = [
   { href: "/", label: "Home" },
   { href: "/blog", label: "Blog generator" },
   { href: "/resume", label: "Resume match" },
+  { href: "/history", label: "History" },
 ];
 
-export default function SiteHeader() {
+export default async function SiteHeader(User) {
   return (
     <header className="border-b border-slate-200 bg-white">
       <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
@@ -35,12 +39,7 @@ export default function SiteHeader() {
           >
             <UserCircle size={23} strokeWidth={1.8} />
           </Link>
-          <Link
-            href="/auth"
-            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-indigo-700"
-          >
-            Login
-          </Link>
+         <LoginButton {...User}/>
         </div>
       </div>
       <nav className="flex gap-5 overflow-x-auto border-t border-slate-100 px-4 py-3 md:hidden" aria-label="Mobile navigation">

@@ -2,7 +2,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { QandAQuestion } from "../../utils/api"
+import { useRouter } from "next/navigation";
+import { QandAQuestion, getMyQuestions } from "../../utils/api"
+import HistorySidebar from "./HistorySidebar";
+import { LoaderCircle } from "lucide-react";
 
 export default function ResumeQandA() {
   const [resume, setResume] = useState(null);
@@ -10,6 +13,25 @@ export default function ResumeQandA() {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [history, setHistory] = useState([]);
+  const [selectedHistory, setSelectedHistory] = useState(null);
+  const [historyLoading, setHistoryLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    refreshQuestions()
+      .catch((requestError) => {
+        if ([401, 403].includes(requestError.response?.status)) {
+          router.replace("/auth?redirect=/resume");
+        }
+      })
+      .finally(() => setHistoryLoading(false));
+  }, [router]);
+
+  const refreshQuestions = async () => {
+    const response = await getMyQuestions();
+    setHistory(response.data.data || []);
+  };
 
   useEffect(() => {
     if (!resume) {
@@ -54,6 +76,8 @@ console.log("FULL RESPONSE:", response);
 console.log("QUESTIONS:", response?.data?.questions);
 
       setQuestions(response?.data?.data?.questions || []);
+      setSelectedHistory(null);
+      await refreshQuestions();
     } catch (error) {
       console.log(error);
 
@@ -68,15 +92,30 @@ console.log("QUESTIONS:", response?.data?.questions);
 
   const resetHandler = () => {
     setQuestions([]);
+    setSelectedHistory(null);
     setResume(null);
     setResumePreview("");
+    setError("");
+  };
+
+  const openHistory = ({ item }) => {
+    setSelectedHistory(item);
+    setQuestions(item.questions || []);
     setError("");
   };
 
   if (questions.length > 0) {
     return (
       <main className="min-h-screen bg-[#f5f7fb] px-4 py-8 text-slate-950 sm:px-6 sm:py-12">
-        <section className="mx-auto max-w-4xl">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-start">
+        <HistorySidebar
+          questions={history}
+          selected={selectedHistory ? { key: `resume-${selectedHistory._id}` } : null}
+          onSelect={openHistory}
+          showBlogs={false}
+        />
+        <section className="min-w-0 flex-1">
+          {historyLoading && <p className="mb-4 flex items-center gap-2 text-sm text-slate-500"><LoaderCircle size={16} className="animate-spin" /> Loading resume history...</p>}
           <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.18em] text-indigo-600">
@@ -148,13 +187,22 @@ console.log("QUESTIONS:", response?.data?.questions);
             ))}
           </div>
         </section>
+        </div>
       </main>
     );
   }
 
   return (
     <main className="min-h-screen bg-[#f5f7fb] px-4 py-8 text-slate-950 sm:px-6 sm:py-12">
-      <section className="mx-auto max-w-5xl">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-start">
+      <HistorySidebar
+        questions={history}
+        selected={selectedHistory ? { key: `resume-${selectedHistory._id}` } : null}
+        onSelect={openHistory}
+        showBlogs={false}
+      />
+      <section className="min-w-0 flex-1">
+        {historyLoading && <p className="mb-4 flex items-center gap-2 text-sm text-slate-500"><LoaderCircle size={16} className="animate-spin" /> Loading resume history...</p>}
         <div className="mb-10 max-w-2xl">
           <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-600 text-xl text-white shadow-lg shadow-indigo-200">
             &#10022;
@@ -318,6 +366,7 @@ console.log("QUESTIONS:", response?.data?.questions);
           </div>
         </form>
       </section>
+      </div>
     </main>
   );
 }

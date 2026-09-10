@@ -9,7 +9,7 @@ export function middleware(request) {
   // =========================
   // USER PROTECTED ROUTES
   // =========================
-  const userRoutes = ["/resume", "/blog", "/checkout", "/profile"];
+  const userRoutes = ["/resume", "/blog", "/checkout", "/profile", "/history"];
 
   const isUserRoute = userRoutes.some((route) =>
     pathname.startsWith(route)
@@ -73,6 +73,7 @@ export const config = {
     "/profile/:path*",
     "/resume/:path*",
     "/blog/:path*",
+    "/history/:path*",
     "/admin/:path*",
   ],
 };

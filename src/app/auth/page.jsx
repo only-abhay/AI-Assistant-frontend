@@ -57,6 +57,7 @@ export default function AuthPage() {
       } else {
         toast.success("Welcome back to your workspace.");
         router.push("/");
+        router.refresh();
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong. Please try again.");
