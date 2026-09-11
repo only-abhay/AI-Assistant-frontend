@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import AuthBrandPanel from "../../components/auth/AuthBrandPanel";
 import AuthForm from "../../components/auth/AuthForm";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_URL = "/api/backend";
 
 export default function AuthPage() {
   const router = useRouter();

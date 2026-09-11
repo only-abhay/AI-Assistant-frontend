@@ -9,7 +9,7 @@ export function proxy(request) {
   // =========================
   // USER PROTECTED ROUTES
   // =========================
-  const userRoutes = ["/resume", "/blog", "/checkout", "/profile", "/history"];
+  const userRoutes = ["/resume", "/blog", "/profile", "/history"];
 
   const isUserRoute = userRoutes.some((route) =>
     pathname.startsWith(route)
@@ -52,14 +52,14 @@ export function proxy(request) {
       // Only admin allowed
       if (decoded.role !== "admin") {
         return NextResponse.redirect(
-          new URL("/login", request.url)
+          new URL("/auth", request.url)
         );
       }
     } catch (error) {
       console.log("JWT VERIFY ERROR:", error.message);
 
       return NextResponse.redirect(
-        new URL("/login", request.url)
+        new URL("/auth", request.url)
       );
     }
   }
@@ -77,5 +77,3 @@ export const config = {
     "/admin/:path*",
   ],
 };
-
-export const runtime = "nodejs";
