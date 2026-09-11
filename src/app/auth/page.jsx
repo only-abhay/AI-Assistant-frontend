@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import AuthBrandPanel from "../../components/auth/AuthBrandPanel";
 import AuthForm from "../../components/auth/AuthForm";
 
-const API_URL = "/api/backend";
+const API_URL = "";
 
 export default function AuthPage() {
   const router = useRouter();

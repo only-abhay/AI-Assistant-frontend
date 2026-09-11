@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { UserCircle } from "lucide-react";
-import serverApi from "../../../utils/serverApi";
 
 import LoginButton from "./LoginButton";
 
