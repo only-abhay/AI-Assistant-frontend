@@ -56,7 +56,7 @@ export default function AuthPage() {
         router.push(`/verify-otp?email=${encodeURIComponent(form.email)}`);
       } else {
         toast.success("Welcome back to your workspace.");
-        router.push("/");
+        router.push("/pricing");
         router.refresh();
       }
     } catch (error) {

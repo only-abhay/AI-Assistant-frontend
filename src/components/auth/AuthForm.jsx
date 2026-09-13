@@ -17,9 +17,9 @@ export default function AuthForm({
   const isSignup = mode === "signup";
 
   return (
-    <section className="flex flex-1 items-center justify-center px-5 py-10 sm:px-10 lg:px-16">
+    <section className="flex min-h-screen flex-1 items-center justify-center px-4 py-8 sm:px-10 sm:py-10 lg:px-16">
       <div className="w-full max-w-md">
-        <div className="mb-8 flex rounded-xl bg-slate-200/70 p-1">
+        <div className="mb-7 flex rounded-xl bg-slate-200/70 p-1 sm:mb-8">
           {[
             ["signin", "Sign in"],
             ["signup", "Create account"],
@@ -38,7 +38,7 @@ export default function AuthForm({
 
         <div className="mb-7">
           <p className="mb-2 text-sm font-semibold text-indigo-600">Welcome to Lumina</p>
-          <h2 className="text-3xl font-black tracking-[-0.03em] text-slate-950">
+          <h2 className="text-2xl font-black tracking-[-0.03em] text-slate-950 sm:text-3xl">
             {isSignup ? "Build your next breakthrough." : "Good to see you again."}
           </h2>
           <p className="mt-3 text-sm leading-6 text-slate-500">

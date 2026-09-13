@@ -9,7 +9,7 @@ export function proxy(request) {
   // =========================
   // USER PROTECTED ROUTES
   // =========================
-  const userRoutes = ["/resume", "/blog", "/profile", "/history"];
+  const userRoutes = ["/resume", "/blog", "/profile", "/history","/pricing"];
 
   const isUserRoute = userRoutes.some((route) =>
     pathname.startsWith(route)
@@ -63,7 +63,6 @@ export function proxy(request) {
       );
     }
   }
-
   return NextResponse.next();
 }
 
@@ -75,5 +74,6 @@ export const config = {
     "/blog/:path*",
     "/history/:path*",
     "/admin/:path*",
+    "/pricing/:path*"
   ],
 };

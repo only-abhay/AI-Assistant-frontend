@@ -8,7 +8,7 @@ const features = [
 
 export default function AuthBrandPanel() {
   return (
-    <section className="relative flex min-h-[430px] flex-1 flex-col justify-between overflow-hidden bg-[#10142b] px-6 py-7 text-white sm:px-10 lg:min-h-screen lg:max-w-[53%] lg:px-16 lg:py-10">
+    <section className="relative hidden min-h-[430px] flex-1 flex-col justify-between overflow-hidden bg-[#10142b] px-6 py-7 text-white sm:px-10 lg:flex lg:min-h-screen lg:max-w-[53%] lg:px-16 lg:py-10">
       <div className="auth-orb auth-orb-one" />
       <div className="auth-orb auth-orb-two" />
       <div className="relative z-10 flex items-center gap-3">

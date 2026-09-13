@@ -9,6 +9,7 @@ export default function SiteFooter() {
           <Link href="/blog" className="transition hover:text-indigo-600">Blog generator</Link>
           <Link href="/resume" className="transition hover:text-indigo-600">Resume match</Link>
           <Link href="/profile" className="transition hover:text-indigo-600">Profile</Link>
+          <Link href="/pricing" className="transition hover:text-indigo-600">Pricing</Link>
         </nav>
       </div>
     </footer>

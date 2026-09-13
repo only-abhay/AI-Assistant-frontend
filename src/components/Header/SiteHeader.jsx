@@ -8,6 +8,7 @@ const navigation = [
   { href: "/blog", label: "Blog generator" },
   { href: "/resume", label: "Resume match" },
   { href: "/history", label: "History" },
+  { href: "/pricing", label: "Pricing" },
 ];
 
 export default async function SiteHeader(User) {
