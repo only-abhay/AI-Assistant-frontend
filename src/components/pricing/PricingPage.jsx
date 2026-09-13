@@ -77,6 +77,10 @@ export default function PricingPage() {
         },
        
       );
+      console.log(response)
+      if (!response.data.success) {
+        toast.error(response.data.message);
+      }
       if(response.data.success){
        idempotencyKeyRef.current=null,
         router.push("/")
@@ -84,7 +88,8 @@ export default function PricingPage() {
       toast("You're on the Free plan.");
     
   } catch (error) {
-    console.log(error)
+   toast.error(error.response?.data?.message || "Unable to start payment.");
+
   }
     }else if(plan.popular){
      try {
@@ -100,12 +105,18 @@ export default function PricingPage() {
         },
        
       );
+
+      if (!response.data.success) {
+       toast.success(response.data.message);
+      }
+
       if(response.data.success){
       const {razorpayOrderId, amount } = response.data;
           razorpaypopup(razorpayOrderId,amount);
       }
+      
      } catch (error) {
-      console.log(error)
+      toast.error(error.response?.data?.message || "Unable to start payment.");
      }
 
     }
