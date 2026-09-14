@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { generateBlog, getMyBlogs } from "../../utils/api";
 import HistorySidebar from "./HistorySidebar";
 import { LoaderCircle } from "lucide-react";
+import ExportButton from "./auth/general/PdfDownload";
 
 const initialForm = {
   title: "",
@@ -291,7 +292,7 @@ export default function BlogGeneratorForm() {
 
             {/* Blog */}
 
-            <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
+            <article  id="blog-content" className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10">
 
               <div
                 className="prose prose-slate max-w-none
@@ -306,8 +307,14 @@ export default function BlogGeneratorForm() {
                   __html: generatedBlog,
                 }}
               />
-
+                   <div className="mt-5 text-right">
+               <ExportButton
+                targetId="blog-content"
+                fileName={selectedBlog?.title || "AI-Generated-Blog"}
+                />
+                  </div>
             </article>
+               
           </section>
         )}
         </section>

@@ -1,8 +1,9 @@
 const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
+import ExportButton from "../auth/general/PdfDownload";
 
 export default function ResumeHistoryContent({ record }) {
   return (
-    <article>
+    <article  id="resume-questions">
       <div className="mb-6 border-b border-slate-200 pb-6">
         <p className="mb-2 text-sm font-semibold text-indigo-600">Resume Q&A</p>
         <h1 className="text-3xl font-black tracking-tight text-slate-950">{record.resume?.fileName || "Resume interview"}</h1>
@@ -21,6 +22,13 @@ export default function ResumeHistoryContent({ record }) {
           </section>
         ))}
       </div>
+        <div className="mt-5 text-right">
+             <ExportButton
+    targetId="resume-questions"
+    fileName="Interview-Questions"
+    label="Download PDF"
+  />
+  </div>
     </article>
   );
 }

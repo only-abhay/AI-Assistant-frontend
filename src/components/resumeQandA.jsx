@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { QandAQuestion, getMyQuestions } from "../../utils/api"
 import HistorySidebar from "./HistorySidebar";
 import { LoaderCircle } from "lucide-react";
+import ExportButton from "./auth/general/PdfDownload";
 
 export default function ResumeQandA() {
   const [resume, setResume] = useState(null);
@@ -140,7 +141,7 @@ console.log("QUESTIONS:", response?.data?.questions);
             </button>
           </div>
 
-          <div className="space-y-5">
+          <div id="resume-questions"  className="space-y-5">
             {questions.map((item, index) => (
               <div
                 key={item.id || index}
@@ -185,6 +186,13 @@ console.log("QUESTIONS:", response?.data?.questions);
                 </div>
               </div>
             ))}
+       <div className="text-right">
+               <ExportButton
+    targetId="resume-questions"
+    fileName="Interview-Questions"
+    label="Download PDF"
+  />
+       </div>
           </div>
         </section>
         </div>
