@@ -1,4 +1,16 @@
-# Logs
+# dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# build
+dist/
+dist-ssr/
+build/
+
+# logs
 logs
 *.log
 npm-debug.log*
@@ -7,15 +19,11 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# env files
+.env*
 *.local
 
-# env files (can opt-in for committing if needed)
-.env*
-
-# Editor directories and files
+# editor
 .vscode/*
 !.vscode/extensions.json
 .idea
