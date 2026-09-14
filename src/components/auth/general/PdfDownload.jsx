@@ -1,13 +1,12 @@
 "use client";
 
-import html2pdf from "html2pdf.js";
-
 export default function ExportButton({
   targetId,
   fileName = "document",
   label = "Download PDF",
 }) {
-  const handleDownload = () => {
+  const handleDownload = async () => {
+    const { default: html2pdf } = await import("html2pdf.js");
     const element = document.getElementById(targetId);
 
     if (!element) {
